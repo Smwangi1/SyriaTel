@@ -1,3 +1,4 @@
 # Ignore unnecessary folders
 anaconda_projects/
 SyriaTel/
+.ipynb_checkpoints/
