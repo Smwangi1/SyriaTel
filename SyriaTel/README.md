@@ -1,4 +1,9 @@
+# *KEEPING CUSTOMERS CONNECTED - AND NOT DISCONNECTED!* 
+ ## THE SYRIATEL ANALYSIS
 
+# 1.BUSINESS UNDERSTANDING
+
+## **1.1 BUSINESS OVERVIEW**
 
 According to this [article](https://www.sciencedirect.com/topics/social-sciences/telecommunications-industry) published in 2011, Telecommunications company is an organization that provides services for long distance communication. They do this by building and mainatining  the physical networks, like cell towers, that transmit signals to individuals and businesses.These companies facilitate essential services like accessing the internet, making phone calls and sending messages. They make money through customer subscriptions and usage fees for these services.SyriaTel is a telecom company that provides call,text and data services to customers. 
 One advantage of working with in the telecommunication sector is that it is a high-performing sector that contributes to economic growth, potentially increasing returns for investors. Telecommunication is also an essential service with steady demand, making it stable and a valuable industry to be part of.
@@ -90,46 +95,88 @@ The Syria Tel customer churn dataset we are working with is from [Kaggle](https:
 `total_charge` - The total charges for all calls.
 
      
-We are merging the columns `total day minutes` ,`total eve minutes` and `total night minutes` into one column named `total_minutes`. We are also merging `total day calls` , `total eve calls` and `total night calls` into one column named `total_calls`. The columns `total day charge`, `total eve charge`,  and`total night charge` are also being merged to become one column called `total_charge
+We merged the columns `total day minutes` ,`total eve minutes` and `total night minutes` into one column named `total_minutes`. We are also merged `total day calls` , `total eve calls` and `total night calls` into one column named `total_calls`. The columns `total day charge`, `total eve charge`,  and`total night charge` are were also being merged to become one column called `total_charge`.
 
-This is our expected workflow:
+Since our dataset didn't have any missing values we didn't have to drop any null or fill for missing values.
+
+We dropped the `phone number` column since it was not useful in our prediction.
+
+We also needed to check for categorical data in our dataset so that we can perform **one hot encoding** which is an important step for us to make predictions and create Machine learning models.
+
+ # 3 Feature engineering
+
+Under this we checked how different columns correlated with each other before we decided on what features to use so we needed to conduct feature engineering on the columns.
+
+# 4. EXPLANATORY DATA ANALYSIS
+
+We did a bit of explanatory data analysis before we moved to building our models. e.g.
+
+## 4.1 Top 5 and Bottom 5 states with highest churn rate.
 
 
-## 3. DATA EXPLORATION
+```python
+# Group by state and churn counts
+state_churn = df_encoded.groupby(["state", "churn"]).size().unstack(fill_value=0)
 
-### 3.1 Loading a dataset
+# Add churn rate per state
+state_churn["churn_rate"] = state_churn[1] / (state_churn[0] + state_churn[1])
 
-### 3.2 Data cleaning
+# Sort by churn rate (descending)
+highest_churn = state_churn.sort_values(by="churn_rate", ascending=False).head(5)
 
-### 3.3 Feature engineering
+least_churn = state_churn.sort_values(by ="churn_rate", ascending=False).tail(5)
 
-## 4. EXPLANATORY DATA ANALYSIS
+print("Top 5 states with the highest churn rate:")
+print(highest_churn)# show top 10 states with highest churn rate
+print("Top 5 states with the least churn rate:")
+print(least_churn)
 
-### 4.1 Top 5 and Bottom 5 states with highest churn rate.
+```
 
-## 5. MODELLING
+    Top 5 states with the highest churn rate:
+    churn   0   1  churn_rate
+    state                    
+    NJ     50  18    0.264706
+    CA     25   9    0.264706
+    TX     54  18    0.250000
+    MD     53  17    0.242857
+    SC     46  14    0.233333
+    Top 5 states with the least churn rate:
+    churn   0  1  churn_rate
+    state                   
+    IA     41  3    0.068182
+    VA     72  5    0.064935
+    AZ     60  4    0.062500
+    AK     49  3    0.057692
+    HI     50  3    0.056604
+    
+This would guide the company to know where it's loyal customers are and where they have a stronger market.
 
-### 5.1 BASELINE MODEL
 
-#### 5.1.1 LOGISTIC REGRESSION
+# 5. MODELLING
 
-### 5.2 LOGISTIC REGRESSION WITH ALL FEATURES.
+## 5.1 BASELINE MODEL
 
-### 5.3 DECISIONTREE CLASSIFIER
+### 5.1.1 LOGISTIC REGRESSION
 
-### 5.3 RANDOM FOREST MODEL
+We moved to creating models,specifically a logistic regression model because the problem we were trying to answer is a binary classification and we were also trying to answer the question **what is the probability of a customer to churn or not to churn?** depending on various features.
 
-## 6.EVALUATION
+Before moving to the modelling bit of things we first had to do **feature selection** and also look at our predictor variable `churn`, So as to create our baseline model.
 
-### 6.1 Logistic regression baseline model
 
-### 6.2 Logistic regression  model with all features
+## 5.2 LOGISTIC REGRESSION WITH ALL FEATURES.
 
-### 6.3 DecisionTreeClassifier with all features
+We wanted to check whether adding more information improves the model compared to the baseline.For features we are using all the predictores available in the dataset excluding the target variable. We first onehotencode the multi-categorical variable state to have a smooth flow.
 
-### 6.4 Random forest with all features
 
-## Explaing the metric of success.
+## 5.3 DECISIONTREE CLASSIFIER
+
+We built another model to perform classification ,in this case a DecisionTree Classifier .
+
+# 6.EVALUATION
+
+In this section we will be evaluating our models to determine which performs better at predicting churning customers. We will compare the models and ultimately choose the one that performs better as our baseline model of recommendation.Let's begin.
+
 We will be using Recall and ROC-AUC as the metric of success of our model.we will be using:
 
 **Recall** 
@@ -140,48 +187,25 @@ We will be using Recall and ROC-AUC as the metric of success of our model.we wil
 **ROC-AUC**
 * measures the model’s ability to discriminate between churners and non-churners across all thresholds.
 * ROC-AUC is threshold-independent, so it evaluates the model’s overall ranking ability.
-* * A high ROC-AUC means the model is reliable in assigning higher churn probabilities to churners than to non-churners, which is critical for making informed business decisions.
+* A high ROC-AUC means the model is reliable in assigning higher churn probabilities to churners than to non-churners, which is critical for making informed business decisions.
 
 Togther they align with our business objectives and the problem we are tyrying to solve.
 
- ## Important features.
+The Decision Tree is performing much better across all metrics than the baseline logistic regression.
 
-                       Feature  Importance
-    11            total_charge    0.305052
-    6   customer service calls    0.195764
-    9            total_minutes    0.142451
-    7   international plan_yes    0.134658
-    8       log_vmail_messages    0.039229
-    2    number vmail messages    0.037308
-    5        total intl charge    0.035482
-    4         total intl calls    0.030410
-    3       total intl minutes    0.026393
-    10             total_calls    0.017660
-    0           account length    0.016625
-    12           state_encoded    0.015303
-    1                area code    0.003666
-    
+**Recall**: Slightly improved from 0.753 to 0.808 meaning the tree catches more actual churners.
+
+**ROC-AUC**: Higher AUC of 0.90 means the tree has a much better ability to discriminate churners from non-churners overall
+
+The Decision Tree clearly outperforms the baseline logistic regression on this dataset.
+
+We compared the models ROC-AUC and Recall across the models.
+
+Our model correctly identifies 84.8% of the actual churners.A high recall will ensure we catch more churners and this important in churn prediction because missing churners (false negatives) can lead to lost revenue.ROC-AUC measures the model’s ability to discriminate between churners and non-churners across all possible thresholds. Our score of 0.917 indicates that if you randomly pick a churner and a non-churner, the model assigns a higher probability of churn to the churner 91.7% of the time.
+We can conclude that This model is very good at separating churners from non-churners compared to our baseline model and other models too.
 
 
-```python
-palette = sns.color_palette("viridis", len(feat_importance))
-# Plot
-plt.figure(figsize=(10,6))
-plt.barh(feat_importance["Feature"], feat_importance["Importance"], color=palette)
-plt.gca().invert_yaxis()
-plt.xlabel("Importance")
-plt.title("Random Forest Feature Importance")
-plt.savefig("feature_importance.png", dpi=300, bbox_inches='tight')
-plt.show()
-```
-
-
-    
-![png](README_files/README_148_0.png)
-    
-
-
-## HOW FEATURES INFLUENCING CHURN
+  ## HOW FEATURES INFLUENCING CHURN
 This are the features that increase rate of churning in the model we seek to deploy:
 
 **total charge** Customers with higher total charges are more likely to churn.High spending may indicate dissatisfaction with value or plan costs.
