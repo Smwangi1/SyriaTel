@@ -1,4 +1,20 @@
+# *KEEPING CUSTOMERS CONNECTED - AND NOT DISCONNECTED!* 
+ ## THE SYRIATEL ANALYSIS
+ 
+ ## GROUP ONE MEMBERS 
+ **1. SHANE MWANGI(GROUP LEADER)**
+ 
+ **2. DAISY KERUBO THOMAS**
+ 
+ **3. JOEL GITONGA**
+ 
+ **4. ROSEMARY WANJIRU**
+ 
+ **5. TIFFANY CHERUTO**
 
+# 1.BUSINESS UNDERSTANDING
+
+## **1.1 BUSINESS OVERVIEW**
 
 According to this [article](https://www.sciencedirect.com/topics/social-sciences/telecommunications-industry) published in 2011, Telecommunications company is an organization that provides services for long distance communication. They do this by building and mainatining  the physical networks, like cell towers, that transmit signals to individuals and businesses.These companies facilitate essential services like accessing the internet, making phone calls and sending messages. They make money through customer subscriptions and usage fees for these services.SyriaTel is a telecom company that provides call,text and data services to customers. 
 One advantage of working with in the telecommunication sector is that it is a high-performing sector that contributes to economic growth, potentially increasing returns for investors. Telecommunication is also an essential service with steady demand, making it stable and a valuable industry to be part of.
