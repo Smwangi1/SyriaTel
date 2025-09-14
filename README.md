@@ -134,12 +134,6 @@ This is our expected workflow:
 
 ### 6.4 Random forest with all features
 
-### HOW FEATURES INFLUENCING CHURN
-
-## 7.CONCLUSION
-
-## 8. RECCOMENDATIONS
-
 ## Explaing the metric of success.
 We will be using Recall and ROC-AUC as the metric of success of our model.we will be using:
 
